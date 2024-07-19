@@ -14,7 +14,7 @@ async function createconfig() {
       mermaid: true,
     },
     themes: ["@docusaurus/theme-mermaid", "@docusaurus/theme-live-codeblock"],
-    title: "Insert Solution Name",
+    title: "AskHR",
     tagline: "Build Faster. Together.",
     favicon: "img/favicon.ico",
 
@@ -22,13 +22,13 @@ async function createconfig() {
     url: "https://ibm-client-engineering.github.io",
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often "/<projectName>/"
-    baseUrl: "/insert-solution-name",
+    baseUrl: "/AskHR",
 
 
     // GitHub pages deployment config.
     // If you aren"t using GitHub pages, you don"t need these.
     organizationName: "ibm-client-engineering", // Usually your GitHub org/user name.
-    projectName: "insert-solution-name", // Usually your repo name.
+    projectName: "AskHR", // Usually your repo name.
 
     onBrokenLinks: "throw",
     onBrokenMarkdownLinks: "warn",
@@ -79,7 +79,7 @@ async function createconfig() {
             // Please change this to your repo.
             // Remove this to remove the "edit this page" links.
             editUrl:
-              "https://github.com/ibm-client-engineering/insert-solution-name/tree/main/packages/create-docusaurus/templates/shared/",
+              "https://github.com/ibm-client-engineering/askhr/tree/main/packages/create-docusaurus/templates/shared/",
           },
           theme: {
             customCss: require.resolve("./src/css/custom.css"),
@@ -91,7 +91,7 @@ async function createconfig() {
             // editUrl: "https://github.com/facebook/docusaurus/edit/main/website/",
             // Advanced use-case: functional editUrl
             editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
-              "https://github.com/ibm-client-engineering/insert-solution-name/edit/main/${blogDirPath}/${blogPath}",
+              "https://github.com/ibm-client-engineering/askhr/edit/main/${blogDirPath}/${blogPath}",
             blogTitle: "Flight Logs",
             blogSidebarTitle: "Flight Logs",
             blogSidebarCount: 'ALL',
@@ -130,7 +130,7 @@ async function createconfig() {
           },
         },
         navbar: {
-          title: "| Insert Solution Name",
+          title: "| AskHR",
           logo: {
             alt: "IBM Client Engineering Logo",
             src: "img/logo.svg",
@@ -147,7 +147,7 @@ async function createconfig() {
             // },
             {to: "flight-logs", label: "Flight Logs", position: "right"},
             {
-              href: "https://github.com/ibm-client-engineering/insert-solution-name",
+              href: "https://github.com/ibm-client-engineering/askhr",
               className: "header-github-link",
               position: "right",
             },
