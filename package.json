@@ -21,7 +21,6 @@
     "@carbon/motion": "^11.16.0",
     "@carbon/react": "^1.52.0",
     "@carbon/type": "^11.25.0",
-    "@cmfcmf/docusaurus-search-local": "^1.1.0",
     "@docusaurus/core": "^3.5.2",
     "@docusaurus/plugin-google-gtag": "^3.5.2",
     "@docusaurus/plugin-sitemap": "^3.5.2",
@@ -31,14 +30,14 @@
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "docusaurus-plugin-image-zoom": "^1.0.1",
-    "docusaurus-plugin-remote-content": "^3.1.0",
+    "docusaurus-plugin-remote-content": "^4.0.0",
     "markmap-common": "^0.15.6",
     "markmap-lib": "^0.15.7",
     "markmap-view": "^0.15.6",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remark-kroki": "^0.2.12"
+    "remark-kroki": "^0.3.7"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.0.1",

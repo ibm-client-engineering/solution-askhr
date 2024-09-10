@@ -36,7 +36,7 @@ async function createconfig() {
     // ...
 
     plugins: [
-      [require.resolve("@cmfcmf/docusaurus-search-local"), {}],
+      
       [require.resolve("docusaurus-plugin-image-zoom"), {}],
       [
         "@docusaurus/plugin-sitemap",
