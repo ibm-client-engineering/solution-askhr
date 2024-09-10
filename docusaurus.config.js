@@ -14,7 +14,7 @@ async function createconfig() {
       mermaid: true,
     },
     themes: ["@docusaurus/theme-mermaid", "@docusaurus/theme-live-codeblock"],
-    title: "AskHR",
+    title: "IBM Client Engineering",
     tagline: "Build Faster. Together.",
     favicon: "img/favicon.ico",
 
@@ -28,15 +28,14 @@ async function createconfig() {
     // GitHub pages deployment config.
     // If you aren"t using GitHub pages, you don"t need these.
     organizationName: "ibm-client-engineering", // Usually your GitHub org/user name.
-    projectName: "solution-askhr/", // Usually your repo name.
+    projectName: "solution-askhr", // Usually your repo name.
 
     onBrokenLinks: "throw",
     onBrokenMarkdownLinks: "warn",
 
     // ...
-
     plugins: [
-      
+
       [require.resolve("docusaurus-plugin-image-zoom"), {}],
       [
         "@docusaurus/plugin-sitemap",
@@ -85,17 +84,16 @@ async function createconfig() {
             customCss: require.resolve("./src/css/custom.css"),
           },
           blog: {
-            routeBasePath: "flight-logs",
-            path: './flight-logs',
+            path: "flight-logs",
             // Simple use-case: string editUrl
             // editUrl: "https://github.com/facebook/docusaurus/edit/main/website/",
             // Advanced use-case: functional editUrl
             editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
+
               "https://github.com/ibm-client-engineering/solution-askhr/edit/main/${blogDirPath}/${blogPath}",
-            blogTitle: "Flight Logs",
-            blogSidebarTitle: "Flight Logs",
-            blogSidebarCount: 'ALL',
-            postsPerPage: 'ALL',
+            blogTitle: "Journey Log",
+            blogSidebarTitle: "All our logs",
+            postsPerPage: 10,
             remarkPlugins: [],
             rehypePlugins: [],
           }
@@ -106,7 +104,7 @@ async function createconfig() {
     themeConfig:
       /** @type {import("@docusaurus/preset-classic").ThemeConfig} */
       ({
-        metadata: [{ name: "keywords", content: "ibm client engineering, open solutions library" }],
+        metadata: [{ name: "keywords", content: "ibm client engineering, open solutions library,  filenet, eks, aws, cp4ba, filenet on aws eks, watson orchestrate, watsonx" }],
         mermaid: {
           theme: { light: "neutral", dark: "dark" },
         },
@@ -115,9 +113,6 @@ async function createconfig() {
         tableOfContents: {
           minHeadingLevel: 2,
           maxHeadingLevel: 5,
-        },
-        colorMode: {
-          disableSwitch: true,
         },
         zoom: {
           selector: ".markdown :not(a) > img",
@@ -130,9 +125,9 @@ async function createconfig() {
           },
         },
         navbar: {
-          title: "| AskHR",
+          title: "| IBM AskHR",
           logo: {
-            alt: "IBM Client Engineering Logo",
+            alt: "My Site Logo",
             src: "img/logo.svg",
             srcDark: "img/logo-dark.svg",
             width: 200,
@@ -145,21 +140,20 @@ async function createconfig() {
             //   position: "left",
             //   label: "Section",
             // },
-            {to: "flight-logs", label: "Flight Logs", position: "right"},
+            {to: "/", label: "Flight Path", position: "right"},
+            {to: "blog", label: "Flight Logs", position: "right"},
             {
-              href: "https://github.com/ibm-client-engineering",
-              className: "header-github-link",
-              position: "right",
+              href: "https://github.com/ibm-client-engineering/solution-askhr",
             },
           ],
         },
         footer: {
           logo: {
               alt: "IBM Logo",
-              src: "https://www.ibm.com/brand/experience-guides/developer/8f4e3cc2b5d52354a6d43c8edba1e3c9/02_8-bar-reverse.svg",
+              src: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
               href: "https://ibm.com",
               height: 150,
-              width: 200,
+              width: 150,
 
           },
           // style: "dark",
@@ -172,12 +166,8 @@ async function createconfig() {
                   to: "https://www.ibm.com/",
                 },
                 {
-                  label: "IBM Client Engineering",
+                  label: "IBM Client Engineering - Open Solutions Library",
                   to: "https://www.ibm.com/client-engineering",
-                },
-                {
-                  label: "IBM Client Engineering Solutions Hub",
-                  to: "https://github.com/ibm-client-engineering",
                 },
               ],
 
