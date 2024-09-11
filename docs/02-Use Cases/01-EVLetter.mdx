@@ -4,3 +4,486 @@ description: Documentation and assets for successful "Employ Verification Letter
 custom_edit_url: null
 ---
 
+# Employment Verification Letter Usecase
+
+## Summary
+An employment verification letter is a document provided by an employer that confirms an employee's job status, including details such as their job title, employment dates, and sometimes salary. It's commonly used for various purposes, such as applying for loans, renting an apartment, or verifying employment for background checks. The letter typically includes the employer's contact information, the employee's name, and a brief description of their role and employment period. This helps third parties verify the employee's current or past employment and income.
+
+Value Statement: Automating employment verification letters streamlines HR processes, ensuring accurate and timely documentation with minimal manual effort. This efficiency boost enhances response times and reduces errors, benefiting both employees and third-party requestors.
+
+IBM has successfuly implemented this usecase in IBM AskHR and customer POC's leveraging Workday HCM.
+
+## Prerequisites
+
+### IBM Technologies
+
+1. IBM watsonx Orchestrate or IBM watsonx Assistant
+2. IBM CodeEngine
+
+### Supporting Technologies
+
+1. Workday HCM
+
+## Build Overview
+
+### Develop Employment Verification API
+
+1. Create an API that uses the Workday API to generate employment verification letters. Ensure the API can accept input details from users.
+
+### Host API on IBM CodeEngine
+
+1. Deploy the Employment Verification API to IBM CodeEngine. Make sure the API is accessible and functions correctly in the cloud environment. Register API as a Skill in Watson Orchestrate:
+2. Integrate the Employment Verification API as a skill within Watson Orchestrate.
+3. Configure the skill to interact with Workday APIs and generate verification letters.
+
+### User Interaction via Watson Assistant
+
+1. Set up Watson Assistant to allow Fiserv employees to log in and input employment verification details. Ensure the assistant prompts users for necessary information and passes it to the Employment Verification API.
+
+### Display and Download Verification Letter:
+
+1. Add functionality to display the generated employment verification letter. Provide a downloadable link so users can easily obtain a copy of the letter.
+
+### Testing and Validation
+
+1. Test the entire process end-to-end to ensure it works seamlessly. Validate that employees can successfully generate and download employment verification letters through the system. Deployment and Maintenance:
+2. Deploy the final solution to fiserv WxO instance. Export the skill from WxO, action flow from WA from the CE2 instance to the Fiserv environment
+
+## watsonx Orchestrate Skill and Skill-Flow Overview
+
+## watsonx Orchestrate AI Assistant / watsonx Assistant Actions and Action-Flow Overview
+
+## Assets
+
+1. Example Supporting IBM Workday API (Skills)
+
+:::warning
+1. The below YAML is used to integrate with the IBM-owned Workday instance for use with pre-sales POC's
+2. Source the `x-workday-internal-service-container-id`, `Server URL`, and `authorizationUrl` from IBM Internal documentation - denoted by "#######"
+3. The selected security schema leverages OAuth2 Implicit which is only supported by watsonx Orchestrate skills. OAuth2 Implicit authentication is not currently supported by the watsonx Orchestrate AI assistant as a custom extension. Workaround: Switch to basicauth (username/password)
+:::
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "API documentation for IBM Workday Instance Skills.",
+      "version": "1.0.0",
+      "title": "IBM Workday Instance Skills",
+      "x-workday-internal-source": "xo",
+      "x-workday-internal-routing": "Public",
+      "x-workday-internal-protected-usage-enabled": false,
+      "x-workday-internal-service-container-id": "#######",
+      "x-ibm-annotations": "1.0.0",
+      "x-ibm-application-name": "IBM Workday Instance Skills",
+      "x-ibm-application-id": "IBM-Workday-Instance-Skills",
+      "x-ibm-disable-default-server-url": true,
+      "x-ibm-tags": {
+        "categories": ["Human Resources"]
+      },
+      "x-ibm-application-icon": "<placeholder_icon>",
+      "contact": {
+        "name": "Joe Cosenza"
+      },
+      "x-ibm-skill-subtype": "public"
+    },
+    "paths": {
+      "/api/timeTracking/v3/ibmsrv_dpt1/workers": {
+        "get": {
+          "summary": "Get Workday workers",
+          "description": "Retrieves a collection of workers and current staffing information.",
+          "parameters": [
+            {
+              "name": "search",
+              "in": "query",
+              "description": "Enter a worker's name to search, or leave blank to retrieve all (limit of 100 responses)",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "x-ibm-order": 1
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "The maximum number of workers in a single response. Default is 100.",
+              "schema": {
+                "type": "integer",
+                "format": "int64",
+                "default": 100
+              },
+              "x-ibm-order": 2,
+              "x-ibm-show": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "All workers retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "title": "Workers",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "workerId": {
+                              "type": "string",
+                              "title": "Employee ID",
+                              "x-ibm-order": 2
+                            },
+                            "descriptor": {
+                              "type": "string",
+                              "title": "Employee Name",
+                              "x-ibm-order": 1
+                            },
+                            "person": {
+                              "type": "object",
+                              "properties": {
+                                "phone": {
+                                  "type": "string",
+                                  "title": "Phone"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "title": "Email"
+                                },
+                                "id": {
+                                  "type": "string",
+                                  "title": "ID"
+                                }
+                              },
+                              "title": "Contact Information - Public",
+                              "x-ibm-order": 3,
+                              "x-ibm-show": false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-ibm-response-property": "data"
+                }
+              }
+            }
+          },
+          "x-workday-internal-try-enabled": true,
+          "operationId": "WISgetWorkers",
+          "x-ibm-visible": true,
+          "x-ibm-nl-intent-examples": [
+            "Get all workers",
+            "Fetch all workers",
+            "Retrieve all workers"
+          ],
+          "security": [
+            {
+              "oAuth2Implicit": []
+            }
+          ]
+        }
+      },
+      "/api/person/v4/ibmsrv_dpt1/people/{ID}/homePhones": {
+        "get": {
+          "tags": ["people"],
+          "summary": "Get a person's phone number",
+          "description": "Retrieve a person's phone number from Workday.",
+          "parameters": [
+            {
+              "name": "ID",
+              "in": "path",
+              "description": "The Workday ID of the resource.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Phone number retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "completePhoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "x-ibm-response-property": "data"
+                }
+              }
+            }
+          },
+          "x-workday-internal-try-enabled": true,
+          "operationId": "getPhonenumhber123",
+          "x-ibm-visible": true,
+          "security": [
+            {
+              "oAuth2Implicit": []
+            }
+          ],
+          "x-ibm-nl-intent-examples": [
+            "Get all people",
+            "Fetch all people",
+            "Retrieve all people"
+          ]
+        }
+      },
+      "/api/person/v4/ibmsrv_dpt1/homeContactInformationChanges/{ID}": {
+        "get": {
+          "tags": ["homeContactInformationChanges"],
+          "summary": "Return a home contact change event.",
+          "description": "Returns basic information about the home contact change event.",
+          "parameters": [
+            {
+              "name": "ID",
+              "in": "path",
+              "description": "The Workday ID of the resource.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Return home contact change event successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "businessProcessParameters": {
+                        "type": "object",
+                        "properties": {
+                          "action": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                              },
+                              "descriptor": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "overallBusinessProcess": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                              },
+                              "descriptor": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "comment": {
+                            "type": "string"
+                          },
+                          "comments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "commentDate": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "comment": {
+                                  "type": "string"
+                                },
+                                "person": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                                    },
+                                    "descriptor": {
+                                      "type": "string"
+                                    },
+                                    "href": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "transactionStatus": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                              },
+                              "descriptor": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "warningValidations": {
+                            "type": "string"
+                          },
+                          "attachments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "description": {
+                                  "type": "string"
+                                },
+                                "contentType": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                                    },
+                                    "descriptor": {
+                                      "type": "string"
+                                    },
+                                    "href": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "fileLength": {
+                                  "type": "string"
+                                },
+                                "uploadDate": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "fileName": {
+                                  "type": "string"
+                                },
+                                "uploadedBy": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                                    },
+                                    "descriptor": {
+                                      "type": "string"
+                                    },
+                                    "href": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "category": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                                    },
+                                    "descriptor": {
+                                      "type": "string"
+                                    },
+                                    "href": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "overallStatus": {
+                            "type": "string"
+                          },
+                          "criticalValidations": {
+                            "type": "string"
+                          },
+                          "for": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$"
+                              },
+                              "descriptor": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "descriptor": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "x-ibm-response-property": "data"
+                }
+              }
+            }
+          },
+          "x-workday-internal-try-enabled": true,
+          "operationId": "WISgethomeContactInformationChanges",
+          "x-ibm-visible": true,
+          "security": [
+            {
+              "oAuth2Implicit": []
+            }
+          ],
+          "x-ibm-nl-intent-examples": [
+            "Return a home contact change event."
+          ]
+        }
+      }
+    },
+    "servers": [
+      {
+        "url": "######"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "oAuth2Implicit": {
+          "type": "oauth2",
+          "x-ibm-visible": true,
+          "flows": {
+            "implicit": {
+              "authorizationUrl": "######",
+              "scopes": {}
+            }
+          }
+        }
+      }
+    }
+  }  
+```
+
+## References
+[IBM Enterprise Github Documentation](https://github.ibm.com/ravikumar-Hi-govindan/wxo-employment-verification-letter)
+
+[IBM Documentation on Box](https://ibm.box.com/s/fh1agbjll7no92ojuhgutfak2pkbr5oq)
