@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>IBM Client Engineering Blog</title>
         <link>https://ibm-client-engineering.github.io/solution-askhr/blog</link>
@@ -9,11 +9,96 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
-            <title><![CDATA[Sample Flight Log 🛫]]></title>
+            <title><![CDATA[Example Flight Log 🛫]]></title>
             <link>https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log</link>
             <guid>https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log</guid>
             <pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[Flight Log of Co-Creation Activities]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="milestones">Milestones<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#milestones" class="hash-link" aria-label="Direct link to Milestones" title="Direct link to Milestones">​</a></h2>
+<ul>
+<li><strong>[Milestone 1]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 2]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 3]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 4]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="todays-accomplishments">Today's Accomplishments<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#todays-accomplishments" class="hash-link" aria-label="Direct link to Today's Accomplishments" title="Direct link to Today's Accomplishments">​</a></h2>
+<ul>
+<li><strong>[Accomplishment 1]</strong>
+<ul>
+<li>Details: [Brief description of what was accomplished]</li>
+</ul>
+</li>
+<li><strong>[Accomplishment 2]</strong>
+<ul>
+<li>Details: [Brief description of what was accomplished]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="lessons-learned">Lessons Learned<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#lessons-learned" class="hash-link" aria-label="Direct link to Lessons Learned" title="Direct link to Lessons Learned">​</a></h2>
+<ul>
+<li><strong>[Lesson 1]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+<li><strong>[Lesson 2]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+<li><strong>[Lesson 3]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="decisions-and-action-items-dai">Decisions and Action Items (DAI)<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#decisions-and-action-items-dai" class="hash-link" aria-label="Direct link to Decisions and Action Items (DAI)" title="Direct link to Decisions and Action Items (DAI)">​</a></h2>
+<ul>
+<li><strong>[Decision/Action Item 1]</strong>
+<ul>
+<li>Action: [Description of action taken or decision made]</li>
+</ul>
+</li>
+<li><strong>[Decision/Action Item 2]</strong>
+<ul>
+<li>Action: [Description of action taken or decision made]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="next-steps">Next Steps<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#next-steps" class="hash-link" aria-label="Direct link to Next Steps" title="Direct link to Next Steps">​</a></h2>
+<ul>
+<li><strong>[Next Step 1]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+<li><strong>[Next Step 2]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+<li><strong>[Next Step 3]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+</ul>]]></content:encoded>
             <category>log</category>
             <category>sprint</category>
         </item>

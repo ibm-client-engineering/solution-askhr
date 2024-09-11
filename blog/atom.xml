@@ -8,11 +8,96 @@
     <subtitle>IBM Client Engineering Blog</subtitle>
     <icon>https://ibm-client-engineering.github.io/solution-askhr/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[Sample Flight Log 🛫]]></title>
+        <title type="html"><![CDATA[Example Flight Log 🛫]]></title>
         <id>https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log</id>
         <link href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log"/>
         <updated>2024-03-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Flight Log of Co-Creation Activities]]></summary>
+        <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="milestones">Milestones<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#milestones" class="hash-link" aria-label="Direct link to Milestones" title="Direct link to Milestones">​</a></h2>
+<ul>
+<li><strong>[Milestone 1]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 2]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 3]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+<li><strong>[Milestone 4]</strong>
+<ul>
+<li>Status: [Complete/In Progress/Not Started]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="todays-accomplishments">Today's Accomplishments<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#todays-accomplishments" class="hash-link" aria-label="Direct link to Today's Accomplishments" title="Direct link to Today's Accomplishments">​</a></h2>
+<ul>
+<li><strong>[Accomplishment 1]</strong>
+<ul>
+<li>Details: [Brief description of what was accomplished]</li>
+</ul>
+</li>
+<li><strong>[Accomplishment 2]</strong>
+<ul>
+<li>Details: [Brief description of what was accomplished]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="lessons-learned">Lessons Learned<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#lessons-learned" class="hash-link" aria-label="Direct link to Lessons Learned" title="Direct link to Lessons Learned">​</a></h2>
+<ul>
+<li><strong>[Lesson 1]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+<li><strong>[Lesson 2]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+<li><strong>[Lesson 3]</strong>
+<ul>
+<li>Mitigation: [Description of how the issue was addressed or what was learned]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="decisions-and-action-items-dai">Decisions and Action Items (DAI)<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#decisions-and-action-items-dai" class="hash-link" aria-label="Direct link to Decisions and Action Items (DAI)" title="Direct link to Decisions and Action Items (DAI)">​</a></h2>
+<ul>
+<li><strong>[Decision/Action Item 1]</strong>
+<ul>
+<li>Action: [Description of action taken or decision made]</li>
+</ul>
+</li>
+<li><strong>[Decision/Action Item 2]</strong>
+<ul>
+<li>Action: [Description of action taken or decision made]</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="next-steps">Next Steps<a href="https://ibm-client-engineering.github.io/solution-askhr/blog/sample-flight-log#next-steps" class="hash-link" aria-label="Direct link to Next Steps" title="Direct link to Next Steps">​</a></h2>
+<ul>
+<li><strong>[Next Step 1]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+<li><strong>[Next Step 2]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+<li><strong>[Next Step 3]</strong>
+<ul>
+<li>Details: [Description of the upcoming action or task]</li>
+</ul>
+</li>
+</ul>]]></content>
         <category label="log" term="log"/>
         <category label="sprint" term="sprint"/>
     </entry>
