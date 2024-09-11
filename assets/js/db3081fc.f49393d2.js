@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[5908],{6232:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/solution-askhr/flight-logs","page":1,"postsPerPage":1,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Flight Logs"}}')}}]);

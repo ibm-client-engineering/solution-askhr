@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[7472],{5513:e=>{e.exports=JSON.parse('{"title":"All our logs","items":[{"title":"Sample Flight Log \ud83d\udeeb","permalink":"/solution-askhr/blog/sample-flight-log","unlisted":false,"date":"2024-03-01T00:00:00.000Z"}]}')}}]);
