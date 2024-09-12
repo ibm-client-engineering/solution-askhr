@@ -147,22 +147,6 @@ paths:
       responses:
         '200':
           description: Successful response with a list of employee resources.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    PersonId:
-                      type: integer
-                      description: Employee ID
-                    WorkEmail:
-                      type: string
-                      description: Employee work email address
-                    DisplayName:
-                      type: string
-                      description: Employee display name
         '400':
           description: Bad Request
         '401':
@@ -187,10 +171,6 @@ paths:
       responses:
         '200':
           description: Successful response with a list of employee work relationships.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetEmployeeWorkRelationshipsResponse'
         '400':
           description: Bad Request
         '401':
@@ -221,10 +201,6 @@ paths:
       responses:
         '200':
           description: Successful response with a list of employee assignments.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetEmployeeAssignmentsResponse'
         '400':
           description: Bad Request
         '401':
@@ -261,26 +237,69 @@ paths:
       responses:
         '200':
           description: Successful response with a list of managers for the specified assignment.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        ManagerId:
-                          type: string
-                          description: The unique identifier for the manager
-                        ManagerName:
-                          type: string
-                          description: The name of the manager
         '400':
           description: Bad Request
         '401':
           description: Unauthorized - invalid credentials
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships/{PeriodOfServiceId}/child/assignments/{assignmentsUniqID}:
+    patch:
+      summary: Update an Employee Assignment
+      description: Update an assignment for an employee within a specified work relationship period.
+      operationId: updateEmployeeAssignment
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The unique ID of the worker for whom to update the assignment.
+          schema:
+            type: string
+        - name: PeriodOfServiceId
+          in: path
+          required: true
+          description: The unique ID of the period of service for which to update the assignment.
+          schema:
+            type: string
+        - name: assignmentsUniqID
+          in: path
+          required: true
+          description: The unique ID of the assignment to update.
+          schema:
+            type: string
+      requestBody:
+        description: The assignment details to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ActionCode:
+                  type: string
+                  description: The action code related to the assignment update.
+                ReasonCode:
+                  type: string
+                  description: The reason code for the assignment update.
+                LocationId:
+                  type: string
+                  description: The ID of the new location for the assignment.
+            example:
+              ActionCode: "TRANSFER"
+              ReasonCode: "LOCCHANGE"
+              LocationId: "300100073991592"
+      responses:
+        '200':
+          description: Successfully updated assignment
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '403':
+          description: Forbidden
         '500':
           description: Internal Server Error - unexpected error
       security:
@@ -350,8 +369,6 @@ paths:
       responses:
         '200':
           description: Successfully updated manager assignment
-          content:
-            application/json: {}
         '400':
           description: Bad Request
         '401':
@@ -364,29 +381,6 @@ paths:
         - basicAuth: []
 
 components:
-  schemas:
-    GetEmployeeAssignmentsResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              AssignmentId:
-                type: integer
-                description: The unique identifier for the assignment
-    GetEmployeeWorkRelationshipsResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              PeriodOfServiceId:
-                type: string
-                description: The unique identifier for the period of service
   securitySchemes:
     basicAuth:
       type: http

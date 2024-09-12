@@ -1,0 +1,278 @@
+openapi: 3.0.3
+info:
+  title: HCM Rest API
+  description: API to access employee resources in the HCM system.
+  version: 1.0.0
+servers:
+  - url: https://iavnqy-dev1.fa.ocs.oraclecloud.com/
+    description: HCM API server
+
+paths:
+  /hcmRestApi/resources/11.13.18.05/workers:
+    get:
+      summary: Get Employee Resources
+      description: Retrieve a list of employee resources.
+      operationId: getEmployeeResources
+      parameters:
+        - name: q
+          in: query
+          description: >
+            This query parameter defines the where clause. The resource collection will be queried using the provided expressions. 
+            The value of this query parameter is one or more expressions. 
+            Example: `?q=Deptno>=10 and Deptno<=30;Loc!=NY`
+            
+            Format: `?q=expression1;expression2`
+            
+            You can use these queryable attributes to filter this collection resource using the `q` query parameter:
+            
+            - `DisplayName`: string; Person's display name.
+            - `FirstName`: string; Person's first name.
+            - `LastName`: string; Person's last name.
+            - `FullName`: string; Person's full name.
+            - `KnownAs`: string; Person's preferred name.
+            - `WorkEmail`: string; Person's work e-mail address.
+          example: FirstName=Joe;DisplayName=Joe Root;WorkEmail=joe.root@trt.com
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with a list of employee resources.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships:
+    get:
+      summary: Get Employee Work Relationships
+      description: Retrieve a list of work relationships for an employee.
+      operationId: getEmployeeWorkRelationships
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The ID of the worker for whom to retrieve work relationships.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with a list of employee work relationships.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships/{PeriodOfServiceId}/child/assignments/:
+    get:
+      summary: Get Employee Assignments
+      description: Retrieve a list of assignments for an employee within a specified work relationship period.
+      operationId: getEmployeeAssignments
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The ID of the worker for whom to retrieve assignments.
+          schema:
+            type: string
+        - name: PeriodOfServiceId
+          in: path
+          required: true
+          description: The ID of the period of service for which to retrieve assignments.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with a list of employee assignments.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships/{PeriodOfServiceId}/child/assignments/{assignmentsUniqID}/child/managers/:
+    get:
+      summary: Get Employee Managers
+      description: Retrieve a list of managers for a specific assignment of an employee.
+      operationId: getEmployeeManagers
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The ID of the worker for whom to retrieve managers.
+          schema:
+            type: string
+        - name: PeriodOfServiceId
+          in: path
+          required: true
+          description: The ID of the period of service to retrieve managers.
+          schema:
+            type: string
+        - name: assignmentsUniqID
+          in: path
+          required: true
+          description: The ID of the assignment to retrieve managers.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with a list of managers for the specified assignment.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships/{PeriodOfServiceId}/child/assignments/{assignmentsUniqID}:
+    patch:
+      summary: Update an Employee Assignment
+      description: Update an assignment for an employee within a specified work relationship period.
+      operationId: updateEmployeeAssignment
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The unique ID of the worker for whom to update the assignment.
+          schema:
+            type: string
+        - name: PeriodOfServiceId
+          in: path
+          required: true
+          description: The unique ID of the period of service for which to update the assignment.
+          schema:
+            type: string
+        - name: assignmentsUniqID
+          in: path
+          required: true
+          description: The unique ID of the assignment to update.
+          schema:
+            type: string
+      requestBody:
+        description: The assignment details to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ActionCode:
+                  type: string
+                  description: The action code related to the assignment update.
+                ReasonCode:
+                  type: string
+                  description: The reason code for the assignment update.
+                LocationId:
+                  type: string
+                  description: The ID of the new location for the assignment.
+            example:
+              ActionCode: "TRANSFER"
+              ReasonCode: "LOCCHANGE"
+              LocationId: "300100073991592"
+      responses:
+        '200':
+          description: Successfully updated assignment
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+  /hcmRestApi/resources/11.13.18.05/workers/{workersUniqID}/child/workRelationships/{PeriodOfServiceId}/child/assignments/{assignmentsUniqID}/child/managers/{managersUniqID}:
+    patch:
+      summary: Update an Employee Manager
+      description: Update a manager assignment of an employee.
+      operationId: updateEmployeeManager
+      parameters:
+        - name: workersUniqID
+          in: path
+          required: true
+          description: The unique ID of the worker for whom to update the manager.
+          schema:
+            type: string
+        - name: PeriodOfServiceId
+          in: path
+          required: true
+          description: The unique ID of the period of service for which to update the manager.
+          schema:
+            type: string
+        - name: assignmentsUniqID
+          in: path
+          required: true
+          description: The unique ID of the assignment for which to update the manager.
+          schema:
+            type: string
+        - name: managersUniqID
+          in: path
+          required: true
+          description: The unique ID of the manager to update.
+          schema:
+            type: string
+        - name: RangeHeader
+          in: header
+          required: true
+          description: >
+            This header specifies the effective date range for the update operation. 
+            Example: `RangeMode=UPDATE;RangeStartDate=2019-09-11;RangeEndDate=4712-12-31`
+          schema:
+            type: string
+            example: RangeMode=UPDATE;RangeStartDate=2019-09-11;RangeEndDate=4712-12-31
+      requestBody:
+        description: The manager details to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ActionCode:
+                  type: string
+                  description: The action code related to the manager update.
+                  default: "MANAGER_CHANGE"
+                ManagerAssignmentNumber:
+                  type: string
+                  description: The assignment number of the new manager.
+                ManagerType:
+                  type: string
+                  description: The type of the manager (e.g., LINE_MANAGER).
+            example:
+              ActionCode: "MANAGER_CHANGE"
+              ManagerAssignmentNumber: "E955160008191552"
+              ManagerType: "LINE_MANAGER"
+      responses:
+        '200':
+          description: Successfully updated manager assignment
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - invalid credentials
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error - unexpected error
+      security:
+        - basicAuth: []
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
