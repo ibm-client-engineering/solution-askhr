@@ -4,7 +4,7 @@ info:
   description: API to access employee resources in the HCM system.
   version: 1.0.0
 servers:
-  - url: https://iavnqy-dev1.fa.ocs.oraclecloud.com/
+  - url: ######
     description: HCM API server
 
 paths:
