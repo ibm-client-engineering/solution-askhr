@@ -1,10 +1,10 @@
 ---
-title: Transfer an Employee
+title: Transfer an Employee and/or Update Employee Manager
 description: Documentation and assets for successful "Transfer an Employee" deployment
 custom_edit_url: null
 ---
 
-# Transfer an Employee Usecase
+# Transfer an Employee and/or Update Employee Manager Usecases
 
 ## Summary
 
@@ -28,13 +28,15 @@ This documentation is currently under construction. Refer to the flight log docu
 
 1. Oracle HCM with GET access to "workers" API and ability to perform a PATCH functions
 
-## Process Flows
+## Oracle HCM Process Flow
 
-Each proces flow requires the parsing of the unique values of
-1. Employee ID
-2. Worker Assignment
-3. Worker Manager
-To obtain these, you must follow the chain of URLs returned from the GET worker call
+Each process flow requires following parameters:
+1. `EmployeeID` (Parsed from GET worker call - ID located in the "self" child URL, and returns multiple workers unless a query parameter is used)
+2. `PeriodOfServiceId` (Using the workersUniqID parameter above, property is directly returned by the GET worker workRelationships call, in the workRelationships child)
+3. `Worker Assignment` (Using the above 2 parameters, parsed from GET worker workRelationships call - ID located in the in the "assignments" child URL). These requirements accomplish "Transfer an Employee" with `PATCH Update a Worker Assignment`
+4. `Worker Manager` (Using the above 3 parameters returns the workerManagers child). These requirements accomplishes "Update a Worker Manager" with `PATCH Update a Worker Manager`.
+
+You must follow the chain of returns from the GET worker call, GET worker workRelationships call, and GET worker assignments call and retain the "uniqId" in the URL to pass to the required parameters for the PATCH calls (Update a Worker Assignment and Update a Worker Manager) API.
 
 :::warning
 This documentation assumes that for each worker there is a single assignment and a single manager
@@ -66,7 +68,7 @@ Example PATCH Input to transfer an employee's location:
 ```
 ### Update a Manager
 
-Similarly, to update a manager, it requires the above children URLs and goes one child further to update an employee's manager
+Similarly to update a manager, it requires the above children URLs and goes one child further to update an employee's manager to accomplish the followalong usecase.
 
 Refer to the [Oracle HCM "Update a Manager" Documentation](https://docs.oracle.com/en/cloud/saas/human-resources/24c/farws/Update_a_Worker_Manager.html)
 
@@ -93,18 +95,19 @@ Example PATCH Input to change an employee's manager:
 
 ## Assets
 
-[Transer Worker YAML](../../assets/usecases/transferworker/transferworker.yaml)
-
 :::warning
-1. The below YAML is used to integrate with the IBM-owned Oracle HCM instance for use with pre-sales POC's
-2. Source the `server` URL from IBM Internal documentation - denoted by "#######"
+1. This YAML is used to integrate with the IBM-owned Oracle HCM instance for use with pre-sales POC's
+2. Source the `servers url` from IBM Internal documentation - currently denoted as `#######` in the yaml
 3. The query parameters must be set per the yaml comments or left blank
 4. The input parameters must match the above example's format
 :::
 
 :::danger
-This yaml cannot be imported to watsonx Orchestrate directly, as it does not include all watsonx Orchestrate required properties
+1. This yaml cannot be imported to watsonx Orchestrate directly, as it does not include all watsonx Orchestrate required properties
+2. An intermediary application is required to parse and pass the `uniqId` for each parameter where required sourced from the URL in the GET call responses, as watsonx Orchestrate does not currently support complex output parsing in Skills
 :::
+
+[Transer Worker YAML](../../assets/usecases/transferworker/transferworker.yaml)
 
 ```yaml
 openapi: 3.0.3
