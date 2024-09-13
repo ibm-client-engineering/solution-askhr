@@ -42,7 +42,7 @@ You must follow the chain of returns from the GET worker call, GET worker workRe
 This documentation assumes that for each worker there is a single assignment and a single manager
 :::
 
-### Transfer a Worker
+### Transfer an Employee
 
 Refer to the [Oracle HCM "Transfer a Worker" Documentation](https://docs.oracle.com/en/cloud/saas/human-resources/24b/farws/Transfer_a_Worker.html)
 
@@ -54,7 +54,7 @@ Oracle HCM API PATCH Path
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from child URL)-->D(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from "self" child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from "assignment" child URL)-->D(Call PATCH on above path with required inputs)
 ```
 
 Example PATCH input to transfer an employee's location:
@@ -66,9 +66,9 @@ Example PATCH input to transfer an employee's location:
 "LocationId":"300100073991592"
 }
 ```
-### Update a Manager
+### Update Employee Manager
 
-Similarly to update a manager, it requires the above children URLs and goes one child further to update an employee's manager to accomplish the followalong usecase.
+Similarly to update a manager, it requires the above children URLs and goes one child further down the path in order to update an employee's manager anf accomplish the "Update Employee Manager" usecase.
 
 Refer to the [Oracle HCM "Update a Manager" Documentation](https://docs.oracle.com/en/cloud/saas/human-resources/24c/farws/Update_a_Worker_Manager.html)
 
@@ -80,7 +80,7 @@ Oracle HCM API PATCH Path:
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from child URL)-->D(Call GET workerManagers to retain parameter managersUniqID from child URL)-->E(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from "self" child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from "assignment" child URL)-->D(Call GET workerManagers to retain parameter managersUniqID from "manager" child URL)-->E(Call PATCH on above path with required inputs)
 ```
 
 Example PATCH input to change an employee's manager:
