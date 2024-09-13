@@ -34,7 +34,7 @@ Each process flow requires following parameters:
 1. `EmployeeID` (Parsed from GET worker call - ID located in the "self" child URL, and returns multiple workers unless a query parameter is used)
 2. `PeriodOfServiceId` (Using the workersUniqID parameter above, property is directly returned by the GET worker workRelationships call, in the workRelationships child)
 3. `Worker Assignment` (Using the above 2 parameters, parsed from GET worker workRelationships call - ID located in the in the "assignments" child URL). These requirements accomplish "Transfer an Employee" with `PATCH Update a Worker Assignment`
-4. `Worker Manager` (Using the above 3 parameters returns the workerManagers child). These requirements accomplishes "Update a Worker Manager" with `PATCH Update a Worker Manager`.
+4. `Worker Manager` (Using the above 3 parameters returns the workerManagers child). These requirements accomplish "Update a Worker Manager" with `PATCH Update a Worker Manager`.
 
 You must follow the chain of returns from the GET worker call, GET worker workRelationships call, and GET worker assignments call and retain the "uniqId" in the URL to pass to the required parameters for the PATCH calls (Update a Worker Assignment and Update a Worker Manager) API.
 
@@ -54,10 +54,10 @@ Oracle HCM API PATCH Path
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from URL)-->D(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from child URL)-->D(Call PATCH on above path with required inputs)
 ```
 
-Example PATCH Input to transfer an employee's location:
+Example PATCH input to transfer an employee's location:
 
 ```json
 {
@@ -80,10 +80,10 @@ Oracle HCM API PATCH Path:
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from URL)-->D(Call GET workerManagers to retain parameter managersUniqID from URL)-->E(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from child URL)-->D(Call GET workerManagers to retain parameter managersUniqID from child URL)-->E(Call PATCH on above path with required inputs)
 ```
 
-Example PATCH Input to change an employee's manager:
+Example PATCH input to change an employee's manager:
 
 ```json
 {
