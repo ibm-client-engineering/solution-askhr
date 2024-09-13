@@ -54,7 +54,7 @@ Oracle HCM API PATCH Path
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from "self" child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from "assignment" child URL)-->D(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from self child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from assignment child URL)-->D(Call PATCH on above path with required inputs)
 ```
 
 Example PATCH input to transfer an employee's location:
@@ -80,7 +80,7 @@ Oracle HCM API PATCH Path:
 
 ```mermaid
 flowchart
-    A(Call GET Worker queried to a single worker to retain workersUniqID from "self" child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from "assignment" child URL)-->D(Call GET workerManagers to retain parameter managersUniqID from "manager" child URL)-->E(Call PATCH on above path with required inputs)
+    A(Call GET Worker queried to a single worker to retain workersUniqID from self child URL)--> B(Call GET workRelationships to retain parameter PeriodOfServiceId property)-->C(Call GET workerAssignments to retain parameter assignmentsUniqID from assignment child URL)-->D(Call GET workerManagers to retain parameter managersUniqID from manager child URL)-->E(Call PATCH on above path with required inputs)
 ```
 
 Example PATCH input to change an employee's manager:
