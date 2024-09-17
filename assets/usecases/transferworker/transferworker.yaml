@@ -4,14 +4,14 @@ info:
   description: API to access employee resources in the HCM system.
   version: 1.0.0
 servers:
-  - url: ######
+  - url: https://iavnqy-dev1.fa.ocs.oraclecloud.com/
     description: HCM API server
 
 paths:
   /hcmRestApi/resources/11.13.18.05/workers:
     get:
-      summary: Get Employee Resources
-      description: Retrieve a list of employee resources.
+      summary: Get Employee Resources or Direct Reports
+      description: Retrieve a list of employee resources or direct reports based on provided filters.
       operationId: getEmployeeResources
       parameters:
         - name: q
@@ -31,13 +31,57 @@ paths:
             - `FullName`: string; Person's full name.
             - `KnownAs`: string; Person's preferred name.
             - `WorkEmail`: string; Person's work e-mail address.
-          example: FirstName=Joe;DisplayName=Joe Root;WorkEmail=joe.root@trt.com
+          example: DisplayName=John Doe
           required: false
           schema:
             type: string
+        - name: finder
+          in: query
+          description: >
+            Query parameter for the finder expression. 
+            Format: `finder=findReports;PersonNumber={personNumber},LineManagerFlag={true|false},DirectReportsFlag={true|false}`
+            Example: findReports;PersonNumber=118,LineManagerFlag=true,DirectReportsFlag=true
+          required: false
+          schema:
+            type: string
+            example: 'findReports;PersonNumber=118,LineManagerFlag=true,DirectReportsFlag=true'
+        - name: onlyData
+          in: query
+          description: Flag to include only data in the response.
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
-          description: Successful response with a list of employee resources.
+          description: Successful response with a list of employee resources or direct reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        PersonId:
+                          type: integer
+                        PersonNumber:
+                          type: string
+                  links:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+                        name:
+                          type: string
+                        kind:
+                          type: string
         '400':
           description: Bad Request
         '401':
@@ -62,6 +106,18 @@ paths:
       responses:
         '200':
           description: Successful response with a list of employee work relationships.
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          PeriodOfServiceId:
+                            type: integer
         '400':
           description: Bad Request
         '401':
@@ -91,7 +147,19 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response with a list of employee assignments.
+          description: Successful response with a list of employee assignment number.
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AssignmentId:
+                            type: integer
         '400':
           description: Bad Request
         '401':
