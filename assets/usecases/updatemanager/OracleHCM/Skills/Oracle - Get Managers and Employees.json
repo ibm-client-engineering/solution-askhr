@@ -1,0 +1,228 @@
+﻿{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Oracle - Get Managers and Employees",
+    "description": "Update an employee manager in OracleHCM",
+    "x-ibm-application-name": "Oracle Update a Manager API",
+    "x-ibm-application-id": "OracleUpdateaManager",
+    "version": "latest"
+  },
+  "servers": [
+    {
+      "url": "https://YOUR_INSTANCE_HERE.oraclecloud.com/",
+      "description": "HCM API server"
+    }
+  ],
+  "paths": {
+    "/hcmRestApi/resources/11.13.18.05/publicWorkers/{PersonId}": {
+      "get": {
+        "summary": "Get Direct Reports of PersonID",
+        "description": "Retrieve a list of employee resources or direct reports based on provided ID.",
+        "operationId": "getDirectReports",
+        "parameters": [
+          {
+            "name": "PersonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "300000009897423"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Optional fields to include in the response.",
+            "example": "assignments.directReports:PersonId,DisplayName",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "assignments.directReports:PersonId,DisplayName"
+            }
+          },
+          {
+            "name": "finder",
+            "in": "query",
+            "description": "Optional fields to include in the response.",
+            "example": "LineManagerFlag=true",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "onlyData",
+            "in": "query",
+            "description": "Flag to include only data in the response.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with a list of employee resources or direct reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "assignments": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "directReports": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "PersonId": {
+                                  "type": "integer"
+                                },
+                                "DisplayName": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "assignments"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized - invalid credentials"
+          },
+          "500": {
+            "description": "Internal Server Error - unexpected error"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/hcmRestApi/resources/11.13.18.05/publicWorkers": {
+      "get": {
+        "summary": "Get New Manager's Assignment Number",
+        "description": "Get new manager's assignment number based on searched manager query.",
+        "operationId": "getNewManagerAssignmentNumber",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "This query parameter defines the where clause. The resource collection will be queried using the provided expressions.  The value of this query parameter is one or more expressions.  Example: `?q=Deptno>=10 and Deptno<=30;Loc!=NY`\nFormat: `?q=expression1;expression2`\nYou can use these queryable attributes to filter this collection resource using the `q` query parameter:\n- `DisplayName`: string; Person's display name. - `FirstName`: string; Person's first name. - `LastName`: string; Person's last name. - `FullName`: string; Person's full name. - `KnownAs`: string; Person's preferred name. - `WorkEmail`: string; Person's work e-mail address.\n",
+            "example": "DisplayName=John Doe",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Optional fields to include in the response.",
+            "example": "assignments:AssignmentNumber",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "assignments:AssignmentNumber"
+            }
+          },
+          {
+            "name": "finder",
+            "in": "query",
+            "description": "Optional fields to include in the response.",
+            "example": "LineManagerFlag=true",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "onlyData",
+            "in": "query",
+            "description": "Flag to include only data in the response.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with a list of new manager's assignment numbers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "assignments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "AssignmentNumber": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized - invalid credentials"
+          },
+          "500": {
+            "description": "Internal Server Error - unexpected error"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
