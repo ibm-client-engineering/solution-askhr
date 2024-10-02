@@ -1,0 +1,58 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Patch Employee Manager API",
+      "version": "latest",
+      "description": "Call custom API to patch employee manager in Oracle HCM",
+      "x-ibm-application-name": "Patch Employee Manager API",
+      "x-ibm-application-id": "patchManager"
+    },
+    "servers": [
+      {
+        "url": "https://YOUR_INSTANCE_HERE/updateManager"
+      }
+    ],
+    "paths": {
+      "/{path}": {
+        "get": {
+          "summary": "Patch manager details using a dynamic path",
+          "parameters": [
+            {
+              "name": "path",
+              "in": "path",
+              "required": true,
+              "description": "The dynamic path containing assistant-set variables.",
+              "schema": {
+                "type": "string",
+                "example": "PersonId/300000009928602/managerAssignmentNumber/E107"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Manager Updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Person or manager assignment not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    }
+  }
+  
