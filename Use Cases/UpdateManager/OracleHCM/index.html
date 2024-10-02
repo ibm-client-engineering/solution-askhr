@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GB0XWXF3GE"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-GB0XWXF3GE",{anonymize_ip:!0})</script><link rel="stylesheet" href="/solution-askhr/assets/css/styles.dd820ada.css">
-<script src="/solution-askhr/assets/js/runtime~main.9425d2ab.js" defer="defer"></script>
+<script src="/solution-askhr/assets/js/runtime~main.0ecb9a99.js" defer="defer"></script>
 <script src="/solution-askhr/assets/js/main.258bb50a.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -25,7 +25,8 @@
 </ol>
 <p>External Technologies</p>
 <ol>
-<li>Oracle HCM Instance<!-- -->
+<li>
+<p>Oracle HCM Instance</p>
 <ol>
 <li>An Oracle HCM user account with:<!-- -->
 <ol>
@@ -36,9 +37,11 @@
 </li>
 </ol>
 </li>
-<li>Custom code hosted on Flask to perform the patch function</li>
-</ol>
+<li>
+<p>Custom code hosted on Flask to perform the patch function</p>
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>Custom Code Required</div><div class="admonitionContent_BuS1"><p>Custom code is required to update a manager via a PATCH call due to Oracle HCM&#x27;s specific PATCH parameter requirements and JSON response structure. watsonx Orchestrate cannot natively parse these unique IDs from the Oracle HCM JSON response, as they are embedded within the string of the returned URL property, rather than being returned as individual properties.</p><p>Two unique IDs are required as input parameters for the &quot;Update a Manager&quot; PATCH call: <code>workersUniqID</code> and <code>assignmentsUniqID</code>. Refer to the supporting <a href="https://docs.oracle.com/en/cloud/saas/human-resources/24b/farws/Update_a_Worker_Manager.html" target="_blank" rel="noopener noreferrer">Oracle documentation</a> for more details. In the Oracle HCM response, the URL properties contain these unique IDs as part of the string, but only the unique ID portion is needed for the PATCH call to function correctly. Since watsonx Orchestrate cannot isolate portions of string properties to pass as output variables, it cannot directly use them as input parameters for the PATCH call.</p><p>To resolve this, custom code is used. This code takes user input via watsonx Orchestrate&#x27;s AI assistant, parses the Oracle HCM JSON response, and extracts the necessary unique IDs. These IDs are then retained as variables to be passed as parameters in the PATCH call, enabling the proper update of a manager.</p></div></div>
+</li>
+</ol>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="quickstart-process">Quickstart Process<a href="#quickstart-process" class="hash-link" aria-label="Direct link to Quickstart Process" title="Direct link to Quickstart Process">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="overview">Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview">​</a></h3>
 <ol>
@@ -50,7 +53,7 @@
 </ol>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="download-and-import-the-prebuilt-watsonx-orchestrate-ai-assistant">Download and Import the prebuilt watsonx Orchestrate AI Assistant<a href="#download-and-import-the-prebuilt-watsonx-orchestrate-ai-assistant" class="hash-link" aria-label="Direct link to Download and Import the prebuilt watsonx Orchestrate AI Assistant" title="Direct link to Download and Import the prebuilt watsonx Orchestrate AI Assistant">​</a></h4>
 <ol>
-<li>Download the zip file for the Assistant</li>
+<li>Download the <a href="https://github.com/ibm-client-engineering/solution-askhr/raw/refs/heads/main/assets/usecases/updatemanager/OracleHCM/Assistants/Oracle%20HCM%20Update%20Manager%20Assistant.zip" target="_blank" rel="noopener noreferrer">zip file for the Assistant</a></li>
 <li>Upload the zip file to your watsonx Orchestrate Assistant (If no assistant exists, create one. Feel free to name it anything such as &quot;AskHR Bot&quot;)<!-- -->
 <ol>
 <li>Go to Assistant settings</li>
@@ -64,7 +67,7 @@
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="download-and-import-the-oraclehcm-skillcustom-extensions-into-watsonx-orchestrate-ai-assistant">Download and Import the OracleHCM Skill/Custom Extensions into watsonx Orchestrate AI Assistant<a href="#download-and-import-the-oraclehcm-skillcustom-extensions-into-watsonx-orchestrate-ai-assistant" class="hash-link" aria-label="Direct link to Download and Import the OracleHCM Skill/Custom Extensions into watsonx Orchestrate AI Assistant" title="Direct link to Download and Import the OracleHCM Skill/Custom Extensions into watsonx Orchestrate AI Assistant">​</a></h4>
 <ol>
 <li>
-<p>Download the Oracle HCM Custom Extension: Oracle - Get Managers and Employees</p>
+<p>Download the watsonx Orchestrate custom extension <a href="https://github.com/ibm-client-engineering/solution-askhr/raw/refs/heads/main/assets/usecases/updatemanager/OracleHCM/Skills/Oracle%20-%20Get%20Managers%20and%20Employees.json" target="_blank" rel="noopener noreferrer">Oracle - Get Managers and Employees</a></p>
 </li>
 <li>
 <p>Modify the API spec for <code>Oracle HCM</code> custom extension and replace &quot;YOUR_INSTANCE_HERE&quot; with your Oracle HCM instance name</p>
@@ -95,7 +98,7 @@
 </ol>
 </li>
 <li>
-<p>Download the &quot;Apply Manager Update Patch&quot; custom extension</p>
+<p>Download the watsonx Orchestrate custom extension <a href="https://github.com/ibm-client-engineering/solution-askhr/raw/refs/heads/main/assets/usecases/updatemanager/OracleHCM/Skills/Apply%20Manager%20Update%20Patch.json" target="_blank" rel="noopener noreferrer">Apply Manager Update Patch</a></p>
 </li>
 <li>
 <p>Modify the API spec for <code>Apply Manager Update Patch</code> and replace &quot;YOUR_INSTANCE_HERE&quot; with your custom code endpoint URL</p>
@@ -124,6 +127,7 @@
 </li>
 </ol>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="stage-the-apply-manager-update-patch-custom-code-environment">Stage the &quot;Apply Manager Update Patch&quot; Custom Code Environment<a href="#stage-the-apply-manager-update-patch-custom-code-environment" class="hash-link" aria-label="Direct link to Stage the &quot;Apply Manager Update Patch&quot; Custom Code Environment" title="Direct link to Stage the &quot;Apply Manager Update Patch&quot; Custom Code Environment">​</a></h4>
+<p>TBD</p>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="stage-oracle-hcm-and-the-watsonx-orchestrate-ai-assistant">Stage Oracle HCM and the watsonx Orchestrate AI Assistant<a href="#stage-oracle-hcm-and-the-watsonx-orchestrate-ai-assistant" class="hash-link" aria-label="Direct link to Stage Oracle HCM and the watsonx Orchestrate AI Assistant" title="Direct link to Stage Oracle HCM and the watsonx Orchestrate AI Assistant">​</a></h4>
 <ol>
 <li>In Oracle HCM, create managers and their direct reports</li>
@@ -168,98 +172,85 @@
 <li>Under &quot;Operations,&quot; select &quot;Get Direct Reports of PersonID&quot;</li>
 <li>Under &quot;Parameters,&quot; set &quot;PersonID&quot; to Session Variables &gt; &quot;ContextManager&quot;.</li>
 <li>Under &quot;Optional Parameters,&quot; set &quot;fields&quot; to an expression</li>
-<li>In the expression, type the following:</li>
-</ol>
+<li>In the expression, type the following:<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">assignments.directReports:PersonId,DisplayName</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>warning</div><div class="admonitionContent_BuS1"><p>There is a bug in watsonx Orchestrate where you must click and set the optional parameter even if it appears to be set by default in the json. Make sure you do the above step and hit apply anyway.</p></div></div>
-<ol start="11">
-<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.</li>
-</ol>
+</li>
+<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.<!-- -->
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>warning</div><div class="admonitionContent_BuS1"><p>This parameter will appear to be set. Click and apply anyway.</p></div></div>
-<ol start="12">
+</li>
 <li>Click &quot;Save&quot;</li>
 <li>Select Action Step 8</li>
 <li>Click &quot;Edit Extension&quot;</li>
 <li>Under &quot;Extension,&quot; select &quot;Oracle - Get Managers and Employees&quot; from the dropdown</li>
 <li>Under &quot;Operations,&quot; select &quot;Get New Manager&#x27;s Assignment Number&quot;</li>
 <li>Under &quot;Optional Paremeters,&quot; set &quot;q&quot; to an expression</li>
-<li>In the expression, type the following:</li>
-</ol>
+<li>In the expression, type the following:<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;DisplayName=</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="19">
+</li>
 <li>After &quot;DisplayName= press the spacebar then type the <code>$</code> character. Select &quot;Session Variables&quot;</li>
 <li>Select Session Variable &quot;selectedEmployee&quot;</li>
 <li>Type the <code>&quot;</code> character</li>
 <li>Press the left arrow key three times to direct the text cursor before the &quot;selectedEmployee&quot; variable in Builder</li>
 <li>Press backspace to delete the space between the &quot;selectedEmployee&quot; variable and &quot;&quot;Direct Reports=&quot;</li>
-<li>The expression should look like the following (including quotations):</li>
-</ol>
+<li>The expression should look like the following (including quotations):<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;DisplayName=selectedEmployee&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="25">
+</li>
 <li>Click &quot;Apply&quot;</li>
-<li>Under &quot;Optional Paremeters,&quot; set &quot;fields&quot; to expression &quot;PersonID&quot; (replace &quot;assignments<!-- -->:AssignmentNumber<!-- -->&quot; with &quot;PersonID&quot;, without quotes)</li>
-</ol>
+<li>Under &quot;Optional Paremeters,&quot; set &quot;fields&quot; to expression &quot;PersonID&quot; (replace &quot;assignments<!-- -->:AssignmentNumber<!-- -->&quot; with &quot;PersonID&quot;, without quotes)<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">PersonID</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="27">
+</li>
 <li>Click &quot;Apply&quot;</li>
-<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.</li>
-</ol>
+<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.<!-- -->
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>warning</div><div class="admonitionContent_BuS1"><p>This parameter will appear to be set. Click and apply anyway.</p></div></div>
-<ol start="29">
+</li>
 <li>Click Apply</li>
 <li>Select Action Step 11</li>
 <li>Click &quot;Edit Extension&quot;</li>
 <li>Under &quot;Extension,&quot; select &quot;Oracle - Get Managers and Employees&quot; from the dropdown</li>
 <li>Under &quot;Operations,&quot; select &quot;Get New Manager&#x27;s Assignment Number&quot;</li>
 <li>Under &quot;Optional Paremeters,&quot; set &quot;q&quot; to an expression</li>
-<li>In the expression, type the following:</li>
-</ol>
+<li>In the expression, type the following:<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;DisplayName=</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="36">
+</li>
 <li>After &quot;DisplayName= press the spacebar then type the <code>$</code> character. Select &quot;Action Steps&quot;</li>
 <li>Select Action Step Variable &quot;10. Who is the new manager...&quot;</li>
 <li>Type the <code>&quot;</code> character</li>
 <li>Press the left arrow key three times to direct the text cursor before the &quot;selectedEmployee&quot; variable</li>
 <li>Press backspace to delete the space between the &quot;selectedEmployee&quot; variable and &quot;&quot;Direct Reports=&quot;</li>
-<li>The expression should look like the following (including quotations):</li>
-</ol>
+<li>The expression should look like the following (including quotations):<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;DisplayName=10. Who is the new manager...&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="42">
+</li>
 <li>Click &quot;Apply&quot;</li>
-<li>Under &quot;Optional Paremeters,&quot; set &quot;fields&quot; to expression &quot;assignments<!-- -->:AssignmentNumber<!-- -->&quot;</li>
-</ol>
+<li>Under &quot;Optional Paremeters,&quot; set &quot;fields&quot; to expression &quot;assignments<!-- -->:AssignmentNumber<!-- -->&quot;<!-- -->
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>warning</div><div class="admonitionContent_BuS1"><p>This parameter will appear to be set. Click and apply anyway.</p></div></div>
-<ol start="44">
-<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.</li>
-</ol>
+</li>
+<li>Under &quot;Optional Paremeters,&quot; set &quot;onlyData&quot; to &quot;True&quot;.<!-- -->
 <div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>warning</div><div class="admonitionContent_BuS1"><p>This parameter will appear to be set. Click and apply anyway.</p></div></div>
-<ol start="45">
+</li>
 <li>Select Action Step 17</li>
 <li>Click &quot;Edit Extension&quot;</li>
 <li>Under &quot;Extension,&quot; select &quot;Apply Manager Update Patch&quot; from the dropdown</li>
 <li>Under &quot;Operations,&quot; select &quot;Patch manager details using a dynamic path&quot;</li>
 <li>Under &quot;Optional Paremeters,&quot; set &quot;path&quot; to an expression</li>
-<li>In the expression, type the following:</li>
-</ol>
+<li>In the expression, type the following:<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;PersonId/</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="51">
+</li>
 <li>After &quot;PersonId/ press the spacebar then type the <code>$</code> character. Select &quot;Session Variables&quot;</li>
 <li>Select Session Variable &quot;selectedPersonId&quot;</li>
 <li>Press the left arrow key <strong>two</strong> times to direct the text cursor before the &quot;selectedPersonId&quot; variable</li>
 <li>Press backspace to delete the space between the &quot;&quot;PersonId/&quot; and &quot;selectedPersonId&quot; variable</li>
 <li>Click the open space after the &quot;selectedPersonId&quot; variable to move the text curser after the &quot;selectedPersonId&quot; variable</li>
-<li>Type the following:</li>
-</ol>
+<li>Type the following:<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">/managerAssignmentNumber/</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="57">
+</li>
 <li>After /managerAssignmentNumber/ press the spacebar then type the <code>$</code> character. Select &quot;Session Variables&quot;</li>
 <li>Select Session Variable &quot;newManagerAssignmentNumber&quot;</li>
 <li>Press the left arrow key <strong>two</strong> times to direct the text cursor before the &quot;newManagerAssignmentNumber&quot; variable</li>
 <li>Press backspace to delete the space between the &quot;managerAssignmentNumber/&quot; and &quot;newManagerAssignmentNumber&quot; variable</li>
-<li>3The expression should look like the following (including quotations):</li>
-</ol>
+<li>3The expression should look like the following (including quotations):<!-- -->
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token plain">&quot;PersonId/selectedPersonId/managerAssignmentNumber/newManagerAssignmentNumber&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<ol start="62">
+</li>
 <li>Click Apply</li>
 </ol>
 <p>You are now ready to test the Assistant.</p>
@@ -292,7 +283,7 @@ To assume the role of <code>Manager 2</code>, type in the assistant &quot;Contex
 </ol>
 <p>Example PATCH request body to change an employee&#x27;s manager:</p>
 <div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token punctuation" style="color:#8dc891">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ActionCode&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;MANAGER_CHANGE&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ManagerAssignmentNumber&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;E955160008191552&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ManagerType&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;LINE_MANAGER&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token punctuation" style="color:#8dc891">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<p>Example Response from OracleHCM</p>
+<p>Example Response from OracleHCM:</p>
 <div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:#282c34;--prism-color:#ffffff"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="background-color:#282c34;color:#ffffff"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#ffffff"><span class="token punctuation" style="color:#8dc891">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;AssignmentSupervisorId&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token number" style="color:#5a9bcf">598504</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;EffectiveStartDate&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;2019-06-11&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;EffectiveEndDate&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;4712-12-31&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ManagerAssignmentId&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token number" style="color:#5a9bcf">300100180052435</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ManagerAssignmentNumber&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;E955160008191552&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ManagerType&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;LINE_MANAGER&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ActionCode&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;MANAGER_CHANGE&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;ReasonCode&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token null keyword" style="color:#c5a5c5">null</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;CreatedBy&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;HCM_INTEGRATION_SPEC&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;CreationDate&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;2019-06-07T15:36:27.784+00:00&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;LastUpdatedBy&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;HCM_INTEGRATION_SPEC&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;LastUpdateDate&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token string" style="color:#8dc891">&quot;2019-06-11T18:34:58.437+00:00&quot;</span><span class="token punctuation" style="color:#8dc891">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token property" style="color:#5a9bcf">&quot;links&quot;</span><span class="token operator" style="color:#d7deea">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#8dc891">[</span><span class="token plain">...</span><span class="token punctuation" style="color:#8dc891">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#ffffff"><span class="token plain"></span><span class="token punctuation" style="color:#8dc891">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/solution-askhr/02-UpdateManager"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Update a Manager</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#prerequisites" class="table-of-contents__link toc-highlight">Prerequisites</a></li><li><a href="#quickstart-process" class="table-of-contents__link toc-highlight">Quickstart Process</a><ul><li><a href="#overview" class="table-of-contents__link toc-highlight">Overview</a><ul><li><a href="#download-and-import-the-prebuilt-watsonx-orchestrate-ai-assistant" class="table-of-contents__link toc-highlight">Download and Import the prebuilt watsonx Orchestrate AI Assistant</a></li><li><a href="#download-and-import-the-oraclehcm-skillcustom-extensions-into-watsonx-orchestrate-ai-assistant" class="table-of-contents__link toc-highlight">Download and Import the OracleHCM Skill/Custom Extensions into watsonx Orchestrate AI Assistant</a></li><li><a href="#stage-the-apply-manager-update-patch-custom-code-environment" class="table-of-contents__link toc-highlight">Stage the &quot;Apply Manager Update Patch&quot; Custom Code Environment</a></li><li><a href="#stage-oracle-hcm-and-the-watsonx-orchestrate-ai-assistant" class="table-of-contents__link toc-highlight">Stage Oracle HCM and the watsonx Orchestrate AI Assistant</a></li><li><a href="#configure-action-steps-and-extensions" class="table-of-contents__link toc-highlight">Configure Action Steps and Extensions</a></li></ul></li></ul></li><li><a href="#further-documentation" class="table-of-contents__link toc-highlight">Further Documentation</a><ul><li><a href="#oracle-documentation" class="table-of-contents__link toc-highlight">Oracle Documentation</a></li><li><a href="#oracle-hcm-api-flow-overview" class="table-of-contents__link toc-highlight">Oracle HCM API Flow Overview</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="footer"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Explore</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">IBM</a></li><li class="footer__item"><a href="https://www.ibm.com/client-engineering" target="_blank" rel="noopener noreferrer" class="footer__link-item">IBM Client Engineering - Open Solutions Library</a></li></ul></div></div><div class="footer__bottom text--center"><div class="margin-bottom--sm"><a href="https://ibm.com" rel="noopener noreferrer" class="footerLogoLink_BH7S"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM Logo" class="footer__logo themedComponent_mlkZ themedComponent--light_NVdE" width="150" height="150"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM Logo" class="footer__logo themedComponent_mlkZ themedComponent--dark_xIcU" width="150" height="150"></a></div></div></div></footer></div>
 </body>
 </html>
