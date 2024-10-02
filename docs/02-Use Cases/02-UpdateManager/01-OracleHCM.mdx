@@ -8,15 +8,16 @@ custom_edit_url: null
 
 IBM Technologies
 
-1. IBM watsonx Orchestrate with Builder role
+1. IBM watsonx Orchestrate with the "Builder" role
 
 External Technologies
 1. Oracle HCM Instance
-    1. An Oracle HCM user account with:
+
+    Including an Oracle HCM user account with:
         1. Username/Password
-        1. API access with ability to perform GET and PATCH calls to "workers" API, and GET calls to "publicWorkers" API
-        3. The ability to create Oracle HCM Users
-2. Custom code hosted on Flask to perform the patch function
+        2. API access with ability to perform GET and PATCH calls to "workers" API, and GET calls to "publicWorkers" API
+        3. The ability to create Workers
+2. Custom code engine to perform the patch function
     :::warning Custom Code Required
     Custom code is required to update a manager via a PATCH call due to Oracle HCM's specific PATCH parameter requirements and JSON response structure. watsonx Orchestrate cannot natively parse these unique IDs from the Oracle HCM JSON response, as they are embedded within the string of the returned URL property, rather than being returned as individual properties.
 
@@ -25,14 +26,16 @@ External Technologies
     To resolve this, custom code is used. This code takes user input via watsonx Orchestrate's AI assistant, parses the Oracle HCM JSON response, and extracts the necessary unique IDs. These IDs are then retained as variables to be passed as parameters in the PATCH call, enabling the proper update of a manager.
     :::
 
-## Quickstart Process
+## Quickstart
+
+This "Quickstart" provides an importable watsonx assistant with two custom extensions to provide this functionality within watsonx Orchestrate AI Assistant and/or watsonx Assistant for Oracle HCM. The below guide is how to build and configure the assistant.
 
 ### Overview
 1. Download and Import the prebuilt watsonx Orchestrate AI Assistant
 2. Download and Import the OracleHCM Skill/Custom Extensions into watsonx Orchestrate AI Assistant
 3. Stage the "Apply Manager Update Patch" Custom Code Environment
 4. Stage Oracle HCM and the watsonx Orchestrate AI Assistant
-5. Configure Action Steps and Extensions
+5. Configure Action Step Extensions
 
 #### Download and Import the prebuilt watsonx Orchestrate AI Assistant
 1. Download the [zip file for the Assistant](https://github.com/ibm-client-engineering/solution-askhr/raw/refs/heads/main/assets/usecases/updatemanager/OracleHCM/Assistants/Oracle%20HCM%20Update%20Manager%20Assistant.zip)
@@ -134,7 +137,7 @@ Our assistant assumed the following users and reports in Oracle HCM:
     9. Set the initial value to the PersonID of your `Manager 2`
     10. Click "Save"
 
-#### Configure Action Steps and Extensions
+#### Configure Action Steps Extensions
 
 1. Navigate to the Assistant actions
 2. Click "Created by you"
@@ -251,7 +254,6 @@ To assume the role of `Manager 2`, type in the assistant "Context switch to mana
 ### Oracle Documentation
 
 ["Update a Worker Manager" documentation](https://docs.oracle.com/en/cloud/saas/human-resources/24b/farws/Update_a_Worker_Manager.html)
-
 
 ### Oracle HCM API Flow Overview
 
