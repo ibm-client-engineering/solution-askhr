@@ -106,8 +106,73 @@ This "Quickstart" provides an importable watsonx assistant with two custom exten
 
 #### Stage the "Apply Manager Update Patch" Custom Code Environment
 
-TBD
+1. Create Flask App
+    1. Copy the following code into a new file called "app.py"
+    ```
+    from flask import Flask
+    import requests
+    from requests.auth import HTTPBasicAuth
+    import json
 
+    app = Flask(__name__)
+
+    @app.route('/updateManager/PersonId/<string:PersonId>/managerAssignmentNumber/<string:managerAssignmentNumber>/', methods=['GET'])
+
+    def updateManager(PersonId, managerAssignmentNumber):
+        
+        getWorkerURL = "https://{HOSTNAME}/hcmRestApi/resources/11.13.18.05/workers?q=PersonId=" + PersonId + "&expand=workRelationships.assignments.managers&links=self"
+
+        getWorkerHeaders = {
+            'Content-Type': 'application/vnd.oracle.adf.resourceitem+json',
+            'REST-Framework-Version': '4',
+        }
+
+        getWorkerResponse = requests.get(getWorkerURL, auth=HTTPBasicAuth('{Username}', '{PASSWORD}'), headers=getWorkerHeaders)
+
+        json_getWorkerResponse = getWorkerResponse.json()
+
+        href = json_getWorkerResponse['items'][0]['workRelationships']['items'][0]['assignments']['items'][0]['managers']['items'][0]['links'][0]['href']
+
+        updateManagerURL = href
+
+        updateManagerPayload = json.dumps({
+            "ActionCode": "MANAGER_CHANGE",
+            "ManagerAssignmentNumber": managerAssignmentNumber,
+            "ManagerType": "LINE_MANAGER"
+        })
+
+        updateManagerHeaders = {
+            'Content-Type': 'application/vnd.oracle.adf.resourceitem+json',
+            'REST-Framework-Version': '4',
+            'effective-Of' : 'RangeMode=UPDATE;RangeStartDate=2024-09-18;RangeEndDate=4712-12-31'
+        }
+
+        updateManagerResponse = requests.patch(updateManagerURL, auth=HTTPBasicAuth('{USERNAME}', '{PASSWORD}'), headers=updateManagerHeaders, data=updateManagerPayload)
+
+        json_updateManagerResponse = updateManagerResponse.json()
+
+        return json_updateManagerResponse
+
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0', port=5000)
+    ```
+    The code works by taking in the employee's PersonId and the new manager's AssisgnmentNumber. The employee's PersonId is used to make a GET call to obtain the necessary uniqIds which allow us to make the PATCH call and changet their manager. The response of the GET call returns a URL with all the uniqIds included so we simply have to use that URL as the target for the PATCH call to update the manager. The new manager's AssignmentNumber is used in the payload that is passed to make the PATCH Update Manager call. The Flask App returns the response from the PATCH call.
+
+    2. Fill in the `HOSTNAME`, `USERNAME`, and `PASSWORD` values from your Oracle HCM instance.
+    3. Test the Flask App locally using the following scripts:
+    ```
+    python3 -m venv flaskvenv
+    source flaskvenv/bin/activate
+    pip install Flask
+    pip install requests
+    flask --app app run --debug
+    ```
+    This will create a local server where you can test the Flask App based on the route created in app.py. To stop the flaskenv use `deactivate`
+2. Deploy Flask App to IBM Code Engine
+    1. Follow these instructions to deploy your Flask App to IBM Code Engine: [Deploy a Python-Flask web application by using IBM Cloud Code Engine](https://developer.ibm.com/tutorials/deploy-a-python-flask-web-application-using-ibm-code-engine/)
+    2. Once you have the Flask App deployed, take note of the endpoint that it is hosted at. 
+3. Add Endpoint to API Spec
+    1. You can now add the endpoint to the API Spec in Steps 5 and 6 of the [previous section](#download-and-import-the-oraclehcm-skillcustom-extensions-into-watsonx-orchestrate-ai-assistant).
 
 #### Stage Oracle HCM and the watsonx Orchestrate AI Assistant
 1. In Oracle HCM, create managers and their direct reports
